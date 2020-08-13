@@ -1,10 +1,7 @@
 import React from "react";
 import { vote } from "../reducers/anecdoteReducer";
 import { connect } from "react-redux";
-import {
-  setNotification,
-  clearNotification,
-} from "../reducers/notificationReducer";
+import { setNotification } from "../reducers/notificationReducer";
 import Notification from "./Notification";
 
 const AnecdotesList = (props) => {
@@ -16,7 +13,6 @@ const AnecdotesList = (props) => {
         <button
           onClick={() => {
             props.vote(anecdote.id);
-            props.clearNotification();
             props.setNotification(`you voted ${anecdote.content}`, 5);
           }}
         >
@@ -32,8 +28,8 @@ const AnecdotesList = (props) => {
       <div className="anecdotes">
         {props.anecdotes
           .sort((a, b) => a.votes - b.votes)
-          .map((anecdote) => (
-            <Anecdote key={anecdote.id} anecdote={anecdote} />
+          .map((anecdote, ind) => (
+            <Anecdote key={ind} anecdote={anecdote} />
           ))}
       </div>
     </>
@@ -48,17 +44,18 @@ const mapStateToProps = (state) => {
             a.content.includes(state.filter.filter) ? a : null
           )
         : state.anecdotes,
+      notifications: state.notifications,
     };
   }
   return {
     anecdotes: state.anecdotes,
+    notifications: state.notifications,
   };
 };
 
 const mapDispatchToProps = {
   vote,
   setNotification,
-  clearNotification,
 };
 
 const ConnectedAnecdotes = connect(
