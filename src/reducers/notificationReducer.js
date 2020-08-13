@@ -19,7 +19,10 @@ export const clearNotification = () => async (dispatch) => {
 export const notificationReducer = (state = initialState, action) => {
   switch (action.type) {
     case "NEW_NOTIFICATION":
-      return { message: action.data.str, time: action.data.time * 1000 };
+      return {
+        message: action.data.str,
+        time: action.data.time * 1000,
+      };
 
     case "CLEAR":
       return { message: ``, time: 0 };
